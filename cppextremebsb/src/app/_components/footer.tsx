@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
 import {
   FacebookLogo,
@@ -9,133 +9,243 @@ import {
   WhatsappLogo,
   MapPin,
   Phone,
+  ChartBar,
+  Info
 } from '@phosphor-icons/react'
 import { Handshake } from 'lucide-react'
+
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 
-import ascadeLogo from '../../../public/logo-ascade.png'
-import partnerLogo from '../../../public/logo.png'
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger, useGSAP)
+}
 
-gsap.registerPlugin(ScrollTrigger)
-
+// Parceiros do Projeto Filhos da Nação
 const PARTNERS = [
-  { name: 'Ascade', logo: ascadeLogo, url: 'https://ascade.com.br' },
-  { name: 'CPP Extreme', logo: partnerLogo, url: '#' },
+  { name: 'OndaSup', logo: '/logoazul.jpg', url: 'https://ondasup.com.br' },
+  { name: 'Associação Brasil Melhor', logo: '/logo-ascade.png', url: '#' }, // Usando logo da ascade provisoriamente
 ]
 
 export function Footer() {
-  const partnersRef = useRef<(HTMLAnchorElement | null)[]>([])
+  const containerRef = useRef<HTMLElement>(null)
 
-  const whatsappNumber = '279996314135'
-  const whatsappMessage =
-    'Olá, gostaria de mais informações sobre as aulas de remo na CPP Extreme!'
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    whatsappMessage
-  )}`
+  const whatsappNumber = '556199791925'
+  const whatsappMessage = 'Olá, gostaria de saber mais sobre o projeto Filhos da Nação!'
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 
-  useEffect(() => {
-    if (!partnersRef.current.length) return
+  useGSAP(() => {
+    // Animação das Barras de Progresso (Gráfico Customizado)
+    const bars = gsap.utils.toArray('.progress-bar')
+    
+    bars.forEach((bar: any) => {
+      const targetWidth = bar.getAttribute('data-width')
+      gsap.fromTo(bar, 
+        { width: '0%' }, 
+        {
+          width: targetWidth,
+          duration: 1.5,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: '.chart-container',
+            start: "top 80%",
+          }
+        }
+      )
+    })
 
-    gsap.fromTo(
-      partnersRef.current,
-      {
-        opacity: 0,
-        y: 80,
-        scale: 0.85,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1,
-        ease: 'power4.out',
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: partnersRef.current[0],
-          start: 'top 85%',
-        },
+    // Animação dos Parceiros
+    gsap.from('.partner-item', {
+      y: 40,
+      opacity: 0,
+      stagger: 0.15,
+      duration: 1,
+      ease: "back.out(1.2)",
+      scrollTrigger: {
+        trigger: '.partners-container',
+        start: "top 85%",
       }
-    )
-  }, [])
+    })
+  }, { scope: containerRef })
 
   return (
-    <section className="bg-zinc-950 text-gray-300 border-t border-white/10 relative overflow-hidden flex flex-col">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900 via-zinc-950 to-black opacity-50 pointer-events-none" />
+    <footer ref={containerRef} className="bg-slate-950 text-slate-300 border-t border-white/5 relative overflow-hidden flex flex-col font-sans">
+      
+      {/* Luz de Fundo */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
 
+      {/* =========================================
+          SEÇÃO 1: DASHBOARD DE IMPACTO (GRÁFICOS)
+      ============================================= */}
+      <div className="container mx-auto px-4 md:px-6 py-20 relative z-10 border-b border-white/5">
+        
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/10 border border-blue-500/20 text-blue-400 text-[10px] font-black tracking-widest uppercase mb-4 shadow-lg shadow-blue-900/20">
+            <ChartBar size={16} weight="fill" />
+            Impacto Mensurado
+          </div>
+          <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4">
+            A Capacidade de <span className="text-blue-500 italic">Sonhar</span>
+          </h2>
+          <p className="text-slate-400 max-w-2xl mx-auto font-light text-lg">
+            "Qual sua expectativa em relação ao futuro?" <br className="hidden md:block"/> Essa foi a pergunta feita aos participantes do projeto. Veja a transformação:
+          </p>
+        </div>
+
+        <div className="chart-container grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          
+          {/* GRÁFICO 1: INÍCIO */}
+          <div className="bg-slate-900/50 border border-white/10 p-8 rounded-[2rem] shadow-2xl backdrop-blur-sm">
+            <h3 className="text-white font-black uppercase tracking-widest mb-8 text-sm border-b border-white/10 pb-4">
+              Início das Atividades
+            </h3>
+            
+            <div className="space-y-6">
+              <div>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-slate-400 font-medium">"Absolutamente nenhuma" ou "Quase nenhuma"</span>
+                  <span className="text-slate-500 font-black">71,42%</span>
+                </div>
+                {/* Barra de Progresso */}
+                <div className="w-full h-4 bg-slate-950 rounded-full overflow-hidden border border-white/5">
+                  <div 
+                    className="progress-bar h-full bg-slate-600 rounded-full relative"
+                    data-width="71.42%"
+                  >
+                    <div className="absolute inset-0 bg-white/10 w-full h-full animate-pulse" />
+                  </div>
+                </div>
+                <p className="text-xs text-slate-500 mt-2 font-light">A grande maioria chega sem perspectiva de futuro.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* GRÁFICO 2: DEPOIS DE 12 MESES */}
+          <div className="bg-slate-900 border border-blue-500/30 p-8 rounded-[2rem] shadow-[0_0_40px_rgba(59,130,246,0.1)] relative overflow-hidden">
+            {/* Brilho de sucesso */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 blur-[50px] rounded-full pointer-events-none" />
+
+            <h3 className="text-blue-400 font-black uppercase tracking-widest mb-8 text-sm border-b border-white/10 pb-4">
+              Após 12 meses de Projeto
+            </h3>
+
+            <div className="space-y-6 relative z-10">
+              {/* Barra 1 - Excelente */}
+              <div>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-white font-bold">"Excelente" expectativa</span>
+                  <span className="text-blue-400 font-black">28,57%</span>
+                </div>
+                <div className="w-full h-4 bg-slate-950 rounded-full overflow-hidden border border-white/5">
+                  <div className="progress-bar h-full bg-blue-500 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.6)]" data-width="28.57%" />
+                </div>
+              </div>
+
+              {/* Barra 2 - Boa */}
+              <div>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-slate-200 font-medium">"Alguma" ou "Boa" expectativa</span>
+                  <span className="text-blue-500 font-black">64,27%</span>
+                </div>
+                <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-white/5">
+                  <div className="progress-bar h-full bg-blue-600 rounded-full" data-width="64.27%" />
+                </div>
+              </div>
+
+              {/* Barra 3 - Pouca */}
+              <div>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-slate-400 font-light">"Pouca" expectativa</span>
+                  <span className="text-slate-500 font-black">7,14%</span>
+                </div>
+                <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-white/5">
+                  <div className="progress-bar h-full bg-slate-700 rounded-full" data-width="7.14%" />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div className="max-w-5xl mx-auto mt-6 flex items-start gap-2 text-slate-500 text-[10px] uppercase tracking-widest">
+            <Info size={14} className="shrink-0" />
+            <p>*As pesquisas de mensuração de impacto ocorreram ao longo de 2023 e contaram com a participação dos técnicos das instituições de acolhimento.</p>
+        </div>
+      </div>
+
+      {/* =========================================
+          SEÇÃO 2: PARCEIROS E FOOTER PADRÃO
+      ============================================= */}
       <div className="container mx-auto px-6 py-16 relative z-10">
+        
         {/* PARCEIROS */}
-        <div className="border-b border-white/10 pb-12 mb-12" data-aos="fade-up">
-          <h4 className="text-2xl md:text-3xl font-bold mb-10 text-center flex items-center justify-center gap-3 text-white uppercase tracking-wide">
-            <Handshake className="w-8 h-8 text-white/80" />
-            Parceiros Oficiais
+        <div className="partners-container border-b border-white/5 pb-16 mb-16">
+          <h4 className="text-xl md:text-2xl font-black mb-10 text-center flex items-center justify-center gap-3 text-white uppercase tracking-widest">
+            <Handshake className="w-6 h-6 text-blue-500" />
+            Realização & Parcerias
           </h4>
 
-          <div className="flex flex-wrap justify-center gap-10">
-            {PARTNERS.map((item, index) => (
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+            {PARTNERS.map((item) => (
               <a
                 key={item.name}
-                ref={(el) => {
-                  partnersRef.current[index] = el
-                }}
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-white p-8 rounded-3xl flex items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] will-change-transform"
+                className="partner-item bg-white p-6 rounded-3xl flex items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] w-48 h-32 md:w-56 md:h-36"
               >
-                <Image
-                  src={item.logo}
-                  alt={item.name}
-                  width={240}
-                  height={240}
-                  quality={100}
-                  className="object-contain w-[200px] h-[200px] md:w-[240px] md:h-[240px]"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src={item.logo}
+                    alt={item.name}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
               </a>
             ))}
           </div>
         </div>
 
-        {/* GRID INFO */}
+        {/* GRID INFO DO FOOTER */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {/* SOBRE */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-4">
-            <h3 className="text-2xl font-black text-white uppercase tracking-wider">
-              CPP Extreme
-            </h3>
-            <p className="text-gray-400 leading-relaxed max-w-sm">
-              Promovendo inclusão social, saúde e performance através do esporte e
-              da aventura no coração de Brasília.
+          
+          {/* SOBRE O PROJETO */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
+            <div className="relative w-32 h-32 bg-slate-900 rounded-full border border-white/10 flex items-center justify-center">
+                <Image src="/fdnlogo.png" alt="Logo" fill className="object-contain p-4" />
+            </div>
+            <p className="text-slate-400 leading-relaxed max-w-sm font-light">
+              Transformando a dor em acolhimento e o medo em autoconfiança nas águas do Lago Paranoá.
             </p>
-
             <a
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-full transition-all hover:scale-105 shadow-lg shadow-green-900/20"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-full transition-all hover:scale-105 shadow-lg shadow-blue-900/40 uppercase text-xs tracking-widest"
             >
-              <WhatsappLogo size={24} weight="fill" />
+              <WhatsappLogo size={20} weight="fill" />
               Fale Conosco
             </a>
           </div>
 
-          {/* CONTATO */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-4">
-            <h3 className="text-xl font-bold text-white uppercase tracking-wider">
-              Contato
+          {/* CONTATO E LOCAL */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6 lg:pl-10">
+            <h3 className="text-lg font-black text-white uppercase tracking-widest">
+              Nossa Base
             </h3>
-            <ul className="space-y-4 text-gray-400">
+            <ul className="space-y-5 text-slate-400 font-light">
               <li className="flex items-center gap-3">
-                <Phone size={20} className="text-white/60" />
-                <span>(27) 99631-4135</span>
+                <Phone size={20} className="text-blue-500 shrink-0" weight="fill" />
+                <span>(61) 9979-1925</span>
               </li>
               <li className="flex items-start gap-3 max-w-xs">
-                <MapPin size={24} className="text-white/60 mt-0.5 shrink-0" />
+                <MapPin size={24} className="text-blue-500 shrink-0 mt-0.5" weight="fill" />
                 <span>
-                  Ascade – Associação dos Servidores da Câmara dos Deputados
+                  Lago Paranoá
                   <br />
-                  <span className="text-xs text-gray-500 uppercase font-bold">
+                  <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest mt-1 block">
                     Brasília - DF
                   </span>
                 </span>
@@ -143,32 +253,25 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* REDES */}
-          <div className="flex flex-col items-center md:items-end text-center md:text-right space-y-4">
-            <h3 className="text-xl font-bold text-white uppercase tracking-wider">
-              Siga-nos
+          {/* REDES SOCIAIS */}
+          <div className="flex flex-col items-center md:items-end text-center md:text-right space-y-6">
+            <h3 className="text-lg font-black text-white uppercase tracking-widest">
+              Acompanhe
             </h3>
 
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <SocialLink
-                href="https://www.instagram.com/cppextreme/"
+                href="https://www.instagram.com/"
                 icon={InstagramLogo}
-                baseColor="text-[#E4405F]"
-                hoverColor="hover:bg-[#E4405F]"
+                baseColor="text-pink-500"
+                hoverColor="hover:bg-pink-500"
                 label="Instagram"
               />
               <SocialLink
-                href="https://www.facebook.com/CPPExtreme"
-                icon={FacebookLogo}
-                baseColor="text-[#1877F2]"
-                hoverColor="hover:bg-[#1877F2]"
-                label="Facebook"
-              />
-              <SocialLink
-                href="https://www.youtube.com/@cppextreme"
+                href="https://www.youtube.com/"
                 icon={YoutubeLogo}
-                baseColor="text-[#FF0000]"
-                hoverColor="hover:bg-[#FF0000]"
+                baseColor="text-red-500"
+                hoverColor="hover:bg-red-500"
                 label="YouTube"
               />
             </div>
@@ -176,28 +279,13 @@ export function Footer() {
         </div>
       </div>
 
-      {/* MAPA CPP EXTREME */}
-      <div className="w-full h-[350px] md:h-[420px] border-t border-white/10">
-        <iframe
-          title="Localização CPP Extreme"
-          src="https://www.google.com/maps?q=CPP+Extreme+-15.8186875,-47.8519375&z=17&output=embed"
-          width="100%"
-          height="100%"
-          loading="lazy"
-          style={{ border: 0 }}
-          allowFullScreen
-          referrerPolicy="no-referrer-when-downgrade"
-        />
-      </div>
-
       {/* COPYRIGHT */}
-      <div className="bg-black py-6 text-center border-t border-white/5">
-        <p className="text-xs text-gray-600">
-          © {new Date().getFullYear()} CPP Extreme BSB. Todos os direitos
-          reservados.
+      <div className="bg-black py-6 text-center border-t border-white/5 relative z-10">
+        <p className="text-xs text-slate-600 font-light uppercase tracking-widest">
+          © {new Date().getFullYear()} Projeto Filhos da Nação. Todos os direitos reservados.
         </p>
       </div>
-    </section>
+    </footer>
   )
 }
 
@@ -220,7 +308,7 @@ function SocialLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className={`bg-zinc-900 p-3 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] ${baseColor} ${hoverColor} hover:text-white`}
+      className={`bg-slate-900 border border-white/5 p-3 rounded-2xl transition-all duration-300 hover:-translate-y-1 shadow-lg ${baseColor} ${hoverColor} hover:text-white hover:border-transparent`}
     >
       <Icon size={24} weight="fill" />
     </a>
