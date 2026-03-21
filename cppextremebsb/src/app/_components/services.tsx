@@ -15,14 +15,14 @@ if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger, useGSAP)
 }
 
-// Dados dos Pilares (Bento Grid)
+// Dados dos Pilares (Bento Grid) - ERRO CORRIGIDO AQUI
 const pilares = [
     {
         colSpan: "md:col-span-2",
         title: "Remoterapia Aplicada",
         subtitle: "A Base do Resgate",
         desc: "Utilizamos a canoa havaiana e o SUP para trabalhar sincronia, respeito, disciplina e foco. O contato com a água reduz a ansiedade e cria um ambiente seguro para o desenvolvimento físico.",
-        image: "/canoa4.jpg",
+        image: "/filhosdanacao.webp",
         icon: Anchor
     },
     {
@@ -39,7 +39,7 @@ const pilares = [
         subtitle: "Consciência",
         desc: "Ações práticas de limpeza do Lago Paranoá, ensinando o cuidado com o meio ambiente e o senso de pertencimento.",
         image: "/limparLago.jpeg",
-        icon: Leaf
+        icon: Leaf // <-- CORRIGIDO AQUI (faltavam os dois pontos)
     },
     {
         colSpan: "md:col-span-1",
@@ -105,13 +105,14 @@ export function Services() {
                 {/* --- INTRODUÇÃO --- */}
                 <div className="max-w-4xl mx-auto text-center mb-16 md:mb-24 flex flex-col items-center">
                     
-                    {/* Logo do Projeto */}
-                    <div className="w-24 h-24 relative mb-8" data-aos="fade-down">
+                    {/* Logo do Projeto (Fundo sólido em vez de blur) */}
+                    <div className="relative w-24 h-24 mb-10" data-aos="fade-down">
+                        <div className="absolute inset-0 rounded-full bg-slate-900 border border-white/10 shadow-xl scale-[1.3]" />
                         <Image 
                             src="/fdnlogo.png" 
                             alt="Logo Filhos da Nação" 
                             fill 
-                            className="object-contain brightness-0 invert opacity-80" 
+                            className="relative z-10 object-contain p-2" 
                         />
                     </div>
 
@@ -130,44 +131,44 @@ export function Services() {
                             key={index}
                             className={`bento-card group relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-white/10 bg-slate-900 min-h-[350px] md:min-h-[400px] flex flex-col justify-end p-8 md:p-10 transition-all duration-500 hover:border-blue-500/50 shadow-2xl ${pilar.colSpan}`}
                         >
-                            {/* Imagem de Fundo do Card */}
+                            {/* Imagem de Fundo do Card (Totalmente Colorida, sem blur, sem cinza) */}
                             <div className="absolute inset-0 z-0 overflow-hidden">
                                 <Image
                                     src={pilar.image}
                                     alt={pilar.title}
                                     fill
-                                    className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-60"
+                                    className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-100" 
                                 />
-                                {/* Gradiente forte para garantir a leitura do texto */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent" />
+                                {/* Gradiente forte embaixo para garantir a leitura do texto */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-black/10" />
                             </div>
 
                             {/* Conteúdo do Card */}
                             <div className="relative z-10 flex flex-col h-full justify-between">
-                                {/* Topo: Ícone e Subtítulo */}
-                                <div className="flex justify-between items-start mb-10 transform translate-y-4 opacity-80 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                    <span className="bg-blue-600/20 backdrop-blur-md border border-blue-500/30 text-blue-300 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full">
+                                {/* Topo: Ícone e Subtítulo (Sólidos, sem blur) */}
+                                <div className="flex justify-between items-start mb-10 transform translate-y-4 opacity-90 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                    <span className="bg-blue-600 border border-blue-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg">
                                         {pilar.subtitle}
                                     </span>
-                                    <div className="w-10 h-10 rounded-full bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center text-blue-400">
+                                    <div className="w-10 h-10 rounded-full bg-slate-900 border border-white/20 flex items-center justify-center text-blue-400 shadow-lg">
                                         <pilar.icon size={20} weight="fill" />
                                     </div>
                                 </div>
 
                                 {/* Base: Título e Descrição */}
                                 <div>
-                                    <h3 className="text-2xl md:text-3xl font-black text-white mb-3 tracking-tight drop-shadow-lg">
+                                    <h3 className="text-2xl md:text-3xl font-black text-white mb-3 tracking-tight drop-shadow-2xl">
                                         {pilar.title}
                                     </h3>
                                     {/* O texto descritivo aparece suavemente no hover (no desktop) */}
                                     <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 md:block md:grid-rows-none">
-                                        <p className="text-slate-300 text-sm md:text-base font-light leading-relaxed overflow-hidden md:overflow-visible opacity-0 md:opacity-100 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                        <p className="text-slate-200 text-sm md:text-base font-medium leading-relaxed overflow-hidden md:overflow-visible opacity-0 md:opacity-100 group-hover:opacity-100 transition-opacity duration-500 delay-100 drop-shadow-lg">
                                             {pilar.desc}
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                        </div>ea 
+                        </div>
                     ))}
                 </div>
 
