@@ -1,9 +1,9 @@
- 'use client'
+'use client'
 
 import React, { useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ArrowDown, Play } from 'lucide-react'
+import { ArrowDown } from 'lucide-react'
 
 // Animações
 import gsap from 'gsap'
@@ -43,44 +43,43 @@ export function Hero() {
           className="hero-video w-full h-full object-cover opacity-60"
           src="/bg.mp4"
         />
-        {/* Overlays para profundidade */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-transparent to-slate-950" />
-        <div className="absolute inset-0 bg-slate-950/20" />
+        {/* Overlays para profundidade e garantir paleta escura */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-transparent to-slate-950" />
+        <div className="absolute inset-0 bg-slate-950/30" />
       </div>
 
       {/* 2. CONTEÚDO PRINCIPAL */}
       <div className="hero-content relative z-10 container mx-auto px-6 flex flex-col items-center text-center">
         
-        {/* LOGO FDN - Nítida e com Glow sutil */}
+        {/* 🔥 LOGO FDN CORRIGIDA: Cores originais e Nítida 🔥 */}
         <motion.div 
           whileHover={{ scale: 1.05 }}
-          className="relative w-40 h-40 md:w-56 md:h-56 mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"
+          className="relative w-40 h-40 md:w-56 md:h-56 mb-8 transition-transform duration-500"
         >
+          {/* Adicionei uma borda branca sutil e fundo escuro para destacar se a logo for azul */}
+          <div className="absolute inset-0 rounded-full bg-slate-900/50 backdrop-blur-sm border border-white/10 shadow-2xl scale-110" />
           <Image 
             src="/fdnlogo.png" 
             alt="Logo Filhos da Nação" 
             fill 
             priority
-            className="object-contain brightness-0 invert" 
+            className="relative z-10 object-contain p-4" // Removi brightness-0 invert
           />
         </motion.div>
 
         <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-6">
             REMOTERAPIA E <br />
-            <span className="text-blue-500 italic">SUPERAÇÃO</span>
+            <span className="text-blue-500 italic uppercase">Superação</span>
         </h1>
 
-        <p className="text-lg md:text-2xl text-slate-300 font-light max-w-2xl mb-10 leading-relaxed">
+        <p className="text-lg md:text-2xl text-slate-300 font-light max-w-2xl mb-12 leading-relaxed">
             Transformando o futuro de crianças e adolescentes através do mar e da canoa havaiana.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-5 items-center">
-          <button className="group relative px-8 py-4 bg-white text-slate-950 font-black rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-            <span className="relative z-10 flex items-center gap-2">
+          <button className="group relative px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] active:scale-95">
               APOIE O PROJETO
-              <Play size={18} className="fill-slate-950" />
-            </span>
           </button>
           
           <button className="px-8 py-4 bg-transparent border border-white/20 text-white font-bold rounded-full backdrop-blur-md hover:bg-white/10 transition-all">
@@ -102,11 +101,6 @@ export function Hero() {
         </div>
       </motion.div>
 
-      {/* Grafismo Lateral Sutil */}
-      <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-8 opacity-20">
-        <div className="w-[1px] h-32 bg-gradient-to-t from-blue-500 to-transparent" />
-        <span className="rotate-90 text-[10px] font-black tracking-[0.5em] uppercase text-white origin-left">Est. 2017</span>
-      </div>
     </section>
   )
 }

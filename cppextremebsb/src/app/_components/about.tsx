@@ -1,191 +1,160 @@
 'use client'
 
-import React, { useLayoutEffect, useRef } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
-import { Medal, Student, Boat, Certificate, CaretRight } from '@phosphor-icons/react'
+import { motion } from 'framer-motion'
+import { Activity, HeartPulse, Brain, Quote } from 'lucide-react'
+
+// Animações
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 
-gsap.registerPlugin(ScrollTrigger)
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger, useGSAP)
+}
 
 export function About() {
-    const containerRef = useRef<HTMLDivElement>(null)
-    const imageRef = useRef<HTMLDivElement>(null)
-    const textRef = useRef<HTMLDivElement>(null)
+    const containerRef = useRef<HTMLElement>(null)
+    const statsRef = useRef<HTMLDivElement>(null)
 
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            // 1. Animação da Imagem
-            gsap.fromTo(imageRef.current,
-                { clipPath: 'inset(0% 100% 0% 0%)', opacity: 0.5 },
-                {
-                    clipPath: 'inset(0% 0% 0% 0%)',
-                    opacity: 1,
-                    duration: 1.5,
-                    ease: 'power3.inOut',
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: 'top 75%',
-                    }
+    const stats = [
+        { label: 'Sofrem de Ansiedade', value: 100, icon: Activity },
+        { label: 'Sintomas de Depressão', value: 70, icon: HeartPulse },
+        { label: 'Baixa Autoestima', value: 95, icon: Brain },
+        { label: 'Dificuldade de Foco', value: 85, icon: Activity },
+    ]
+
+    useGSAP(() => {
+        // 1. Efeito de Contagem dos Números
+        const nums = gsap.utils.toArray('.stat-number')
+        
+        nums.forEach((num: any) => {
+            const target = parseInt(num.getAttribute('data-target') || '0')
+            
+            gsap.to(num, {
+                innerText: target,
+                duration: 2,
+                snap: { innerText: 1 }, // Faz o número pular de 1 em 1 (sem decimais)
+                scrollTrigger: {
+                    trigger: num,
+                    start: "top 90%", // Começa a contar quando o número entra na tela
                 }
-            )
+            })
+        })
 
-            // 2. Animação dos Textos
-            const textElements = textRef.current?.querySelectorAll('.animate-text')
-            if (textElements) {
-                gsap.fromTo(textElements,
-                    { y: 30, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 0.8,
-                        stagger: 0.1,
-                        ease: 'power2.out',
-                        scrollTrigger: {
-                            trigger: textRef.current,
-                            start: 'top 85%',
-                        }
-                    }
-                )
+        // 2. Parallax suave na imagem de fundo
+        gsap.to('.bg-parallax', {
+            yPercent: 20,
+            ease: "none",
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
             }
-
-            // 3. Animação dos Cards
-            const cards = textRef.current?.querySelectorAll('.stat-card')
-            if (cards) {
-                gsap.fromTo(cards,
-                    { y: 40, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 0.6,
-                        stagger: 0.15,
-                        ease: 'back.out(1.7)',
-                        scrollTrigger: {
-                            trigger: textRef.current,
-                            start: 'top 70%',
-                        }
-                    }
-                )
-            }
-        }, containerRef)
-
-        return () => ctx.revert()
-    }, [])
+        })
+    }, { scope: containerRef })
 
     return (
-        <section ref={containerRef} className="bg-black py-20 md:py-32 px-6 overflow-hidden border-t border-white/10 relative font-sans">
-            <div className="container mx-auto max-w-6xl">
-                <div className="flex flex-col md:flex-row items-start gap-12 md:gap-20">
+        <section ref={containerRef} className="relative w-full bg-slate-950 text-white overflow-hidden">
+            
+            {/* --- BACKGROUND COM PARALLAX E OVERLAY AZUL --- */}
+            <div className="absolute inset-0 z-0">
+                <Image 
+                    src="/impacto.jpg" // Sua foto de impacto
+                    alt="Background Impacto"
+                    fill
+                    className="bg-parallax object-cover opacity-30 grayscale"
+                />
+                {/* Overlay Azul Escuro Profundo (Slate-950) */}
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/90 to-slate-950" />
+            </div>
 
-                    {/* --- COLUNA ESQUERDA: FOTO --- */}
-                    <div ref={imageRef} className="w-full md:w-5/12 sticky md:top-24">
-                        <div className="aspect-[3/4] relative border border-white/10 rounded-sm overflow-hidden bg-zinc-900 shadow-2xl">
-                            <Image
-                                src="/ranin.png"
-                                alt="Ranin Baptistotte Thomé"
-                                fill
-                                className="object-cover"
-                                quality={100}
-                                priority
-                            />
+            <div className="relative z-10 max-w-7xl mx-auto px-6 py-24 md:py-32">
+                
+                {/* 1. TEXTO INSTITUCIONAL */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-28 items-center">
+                    <div className="space-y-8" data-aos="fade-right">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/10 border border-blue-500/20 text-blue-400 text-xs font-bold tracking-widest uppercase">
+                            Tecnologia Social
+                        </div>
+                        
+                        <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight">
+                            Resgatando a <br />
+                            <span className="text-blue-500 italic uppercase">Infância</span>
+                        </h2>
+                        
+                        <div className="space-y-6 text-slate-300 font-light text-lg leading-relaxed">
+                            <p>
+                                O projeto <strong className="text-white">Filhos da Nação</strong> atende crianças e adolescentes que vivem em instituições de acolhimento com um futuro indefinido. 
+                            </p>
+                            <p>
+                                A dor do abandono e a violação de direitos deixam marcas profundas: ansiedade, depressão e a perda da capacidade de sonhar. Nosso remo é a ferramenta de cura.
+                            </p>
+                        </div>
 
-                            {/* Overlay Minimalista (Ajustado para não poluir no mobile) */}
-                            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-6 md:p-10 pt-32">
-                                <h3 className="text-white text-2xl md:text-3xl font-black uppercase leading-none tracking-tighter mb-2">
-                                    Ranin <br /> Baptistotte
-                                </h3>
-                                <div className="h-[1px] w-12 bg-white mb-3"></div>
-                                <p className="text-zinc-400 text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold">
-                                    Oceanógrafo & Educador Físico
+                        <div className="pt-4">
+                            <div className="p-8 bg-slate-900/50 border border-white/10 rounded-3xl backdrop-blur-md relative">
+                                <Quote className="absolute -top-4 -left-4 text-blue-600" size={40} fill="currentColor" />
+                                <p className="text-slate-200 italic leading-relaxed">
+                                    "O projeto dá a esses jovens um novo horizonte de pertencimento, autoconfiança e foco para ir atrás dos seus sonhos."
                                 </p>
+                                <span className="block mt-4 text-xs font-black uppercase tracking-widest text-blue-500">— Vara da Infância e Juventude / TJDFT</span>
                             </div>
-                        </div>
-                        {/* Decorativo: Escondido no mobile para evitar quebra de layout */}
-                        <div className="hidden md:block absolute -z-10 -bottom-4 -right-4 w-full h-full border border-white/5 rounded-sm" />
-                    </div>
-
-                    {/* --- COLUNA DIREITA: CONTEÚDO --- */}
-                    <div ref={textRef} className="w-full md:w-7/12 text-white">
-
-                        {/* Cabeçalho: Removido os absolutos que causavam sobreposição */}
-                        <div className="animate-text mb-10">
-                            <span className="inline-block py-1 px-3 border border-white/20 rounded-full text-[10px] uppercase tracking-widest text-zinc-500 mb-4 bg-zinc-900/50">
-                                Sobre o Instrutor
-                            </span>
-                            <h2 className="text-5xl md:text-7xl font-black text-white uppercase leading-none tracking-tighter">
-                                O Mentor
-                            </h2>
-                        </div>
-
-                        <div className="prose prose-invert text-zinc-400 leading-relaxed mb-12 animate-text font-light max-w-none">
-                            <p className="text-lg md:text-xl mb-6">
-                                Fundador da <strong className="text-white font-black">CPP Extreme</strong>, hoje com núcleos espalhados pelo Brasil, Ranin é a fusão rara entre a ciência acadêmica e a vivência de um atleta de elite.
-                            </p>
-                            <p className="text-zinc-500">
-                                Além de ser o construtor naval da <strong className="text-white border-b border-white/30 pb-0.5">primeira Canoa Havaiana 100% brasileira</strong> e detentor de recordes de distância, ele atua como empresário focado em performance, especializando-se em análise técnica e biomecânica.
-                            </p>
-                        </div>
-
-                        {/* Grid de Conquistas */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-text">
-
-                            {/* Card 1 */}
-                            <div className="stat-card group flex items-start gap-4 p-6 rounded-2xl bg-zinc-900/40 border border-white/5 hover:border-white/20 transition-all duration-500">
-                                <div className="bg-white text-black p-2.5 rounded-lg shrink-0 group-hover:scale-110 transition-transform duration-500">
-                                    <Medal size={24} weight="bold" />
-                                </div>
-                                <div>
-                                    <strong className="block text-sm text-white mb-2 tracking-widest uppercase font-black">Atleta de Elite</strong>
-                                    <ul className="text-[11px] text-zinc-500 space-y-1 group-hover:text-zinc-300 transition-colors">
-                                        <li className="flex items-center gap-2"><CaretRight size={10} /> Vice-Mundial Surf Va'a</li>
-                                        <li className="flex items-center gap-2"><CaretRight size={10} /> Campeão Brasileiro</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            {/* Card 2 */}
-                            <div className="stat-card group flex items-start gap-4 p-6 rounded-2xl bg-zinc-900/40 border border-white/5 hover:border-white/20 transition-all duration-500">
-                                <div className="bg-white text-black p-2.5 rounded-lg shrink-0 group-hover:scale-110 transition-transform duration-500">
-                                    <Boat size={24} weight="bold" />
-                                </div>
-                                <div>
-                                    <strong className="block text-sm text-white mb-2 tracking-widest uppercase font-black">Pioneiro</strong>
-                                    <p className="text-[11px] text-zinc-500 leading-snug group-hover:text-zinc-300">
-                                        Construtor da 1ª canoa 100% nacional. Recorde BA ➝ RJ.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Card 3 */}
-                            <div className="stat-card group flex items-start gap-4 p-6 rounded-2xl bg-zinc-900/40 border border-white/5 hover:border-white/20 transition-all duration-500">
-                                <div className="bg-white text-black p-2.5 rounded-lg shrink-0 group-hover:scale-110 transition-transform duration-500">
-                                    <Student size={24} weight="bold" />
-                                </div>
-                                <div>
-                                    <strong className="block text-sm text-white mb-2 tracking-widest uppercase font-black">Mestre</strong>
-                                    <p className="text-[11px] text-zinc-500 group-hover:text-zinc-300">
-                                        +1000 alunos formados e dezenas de instrutores capacitados.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Card 4 */}
-                            <div className="stat-card group flex items-start gap-4 p-6 rounded-2xl bg-zinc-900/40 border border-white/5 hover:border-white/20 transition-all duration-500">
-                                <div className="bg-white text-black p-2.5 rounded-lg shrink-0 group-hover:scale-110 transition-transform duration-500">
-                                    <Certificate size={24} weight="bold" />
-                                </div>
-                                <div>
-                                    <strong className="block text-sm text-white mb-2 tracking-widest uppercase font-black">Ciência</strong>
-                                    <p className="text-[11px] text-zinc-500 group-hover:text-zinc-300 italic">
-                                        Oceanografia + Ed. Física. Especialista em Biofísica.
-                                    </p>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 
+                    {/* IMAGEM DE APOIO */}
+                    <div className="relative" data-aos="fade-left">
+                        <div className="relative h-[450px] w-full rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl">
+                            <Image 
+                                src="/filhosRemada2.jpg" // Outra foto de ação
+                                alt="Ação no Lago" 
+                                fill 
+                                className="object-cover" 
+                            />
+                        </div>
+                        {/* Selo flutuante */}
+                        <div className="absolute -top-6 -right-6 bg-blue-600 text-white p-6 rounded-2xl shadow-2xl rotate-12 hidden md:block">
+                            <p className="text-2xl font-black tracking-tighter">EST. 2017</p>
+                        </div>
+                    </div>
                 </div>
+
+                {/* 2. DASHBOARD DE NÚMEROS (CONTANDO COM GSAP) */}
+                <div className="pt-20 border-t border-white/5">
+                    <div className="text-center mb-16" data-aos="fade-up">
+                        <h3 className="text-3xl md:text-5xl font-black mb-4">O Perfil dos Nossos Jovens</h3>
+                        <p className="text-slate-400 max-w-2xl mx-auto font-light">
+                            Os números mostram a urgência. Nossa metodologia mostra o caminho.
+                        </p>
+                    </div>
+
+                    <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                        {stats.map((item, index) => (
+                            <div key={index} className="bg-slate-900/40 backdrop-blur-md border border-white/5 p-8 rounded-[2.5rem] flex flex-col items-center text-center group hover:border-blue-500/30 transition-all duration-500">
+                                <item.icon className="text-blue-500 mb-6 group-hover:scale-110 transition-transform" size={32} />
+                                
+                                <div className="flex items-baseline text-white">
+                                    {/* O span com a classe 'stat-number' é o que o GSAP vai animar */}
+                                    <span 
+                                        className="stat-number text-5xl md:text-7xl font-black"
+                                        data-target={item.value}
+                                    >
+                                        0
+                                    </span>
+                                    <span className="text-3xl font-bold text-blue-500">%</span>
+                                </div>
+
+                                <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-500 mt-4 leading-tight">
+                                    {item.label}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
             </div>
         </section>
     )
