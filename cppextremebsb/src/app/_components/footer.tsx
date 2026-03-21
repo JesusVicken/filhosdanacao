@@ -44,11 +44,11 @@ if (typeof window !== "undefined") {
 }
 
 // ==========================================
-// DADOS
+// DADOS ATUALIZADOS
 // ==========================================
 const PARTNERS = [
-  { name: 'OndaSup', logo: '/logoazul.jpg', url: 'https://ondasup.com.br' },
   { name: 'Associação Brasil Melhor', logo: '/brasilLogo.png', url: 'https://brasilmelhor.org.br/' }, 
+  { name: 'Ascade', logo: '/logo-ascade.png', url: 'https://ascade.com.br/' },
 ]
 
 const profileData = [
@@ -68,10 +68,10 @@ const impactData = [
 
 const MEDIA_REPORTS = [
   { year: '2024', title: 'Reportagem Record', icon: PlayCircle, color: 'text-red-500', url: 'https://www.youtube.com/watch?v=bN5JhF3j0pI&t=11s' },
-  { year: '2023', title: 'Projeto oferece Canoa Havaiana...', icon: Smiley, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2023/novembro/projeto-oferece-canoa-havaiana-para-criancas-acolhidas' },
-  { year: '2022', title: 'Meninos acolhidos praticam...', icon: EnvelopeSimple, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2022/junho/meninos-acolhidos-praticam-canoa-havaiana' },
-  { year: '2019', title: 'Terapia e Prática Esportiva...', icon: PencilSimple, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2019/setembro/combinacao-de-terapia-e-pratica-esportiva-apresenta-resultados-positivos-com-criancas-acolhidas' },
-  { year: '2017', title: 'Rede solidária oferece SUP...', icon: Heart, color: 'text-red-500', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2017/outubro/rede-solidaria-oferece-sup-para-jovens-acolhidos' },
+  { year: '2023', title: 'Projeto oferece Canoa...', icon: Smiley, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2023/novembro/projeto-oferece-canoa-havaiana-para-criancas-acolhidas' },
+  { year: '2022', title: 'Meninos praticam SUP...', icon: EnvelopeSimple, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2022/junho/meninos-acolhidos-praticam-canoa-havaiana' },
+  { year: '2019', title: 'Terapia e Esporte...', icon: PencilSimple, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2019/setembro/combinacao-de-terapia-e-pratica-esportiva-apresenta-resultados-positivos-com-criancas-acolhidas' },
+  { year: '2017', title: 'Rede solidária...', icon: Heart, color: 'text-red-500', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2017/outubro/rede-solidaria-oferece-sup-para-jovens-acolhidos' },
 ]
 
 // Tooltip do Gráfico Moderno
@@ -116,16 +116,25 @@ export function Footer() {
     counters.forEach((num: any) => {
       const target = parseInt(num.getAttribute('data-target') || '0')
       gsap.to(num, {
-        innerText: target, duration: 2.5, snap: { innerText: 1 },
-        scrollTrigger: { trigger: '.lives-section', start: "top 85%" }
+        innerText: target, 
+        duration: 2.5, 
+        snap: { innerText: 1 },
+        scrollTrigger: { trigger: '.lives-section', start: "top 80%" }
       })
     })
     
-    // Cards do Grid de Mídia
-    gsap.from('.media-card', {
-      y: 30, opacity: 0, stagger: 0.1, duration: 0.8, ease: "back.out(1.2)",
-      scrollTrigger: { trigger: '.media-section', start: "top 85%" }
-    })
+    // Cards do Grid de Mídia (Corrigido para fromTo para todos aparecerem)
+    gsap.fromTo('.media-card', 
+      { y: 40, opacity: 0 },
+      { 
+        y: 0, 
+        opacity: 1, 
+        stagger: 0.1, 
+        duration: 0.8, 
+        ease: "back.out(1.2)",
+        scrollTrigger: { trigger: '.media-section', start: "top 85%" }
+      }
+    )
   }, { scope: containerRef })
 
   return (
@@ -151,10 +160,10 @@ export function Footer() {
           </p>
         </div>
 
-        {/* GRID LADO A LADO - Super Compacto e Moderno */}
+        {/* GRID LADO A LADO */}
         <div className="dashboard-grid grid lg:grid-cols-12 gap-6 max-w-6xl mx-auto">
           
-          {/* Lado Esquerdo: A Dor (Barras de progresso) */}
+          {/* Lado Esquerdo: A Dor */}
           <div className="lg:col-span-5 bg-slate-900/50 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] shadow-2xl flex flex-col justify-center">
             <div className="flex items-center gap-2 text-slate-400 mb-6 border-b border-white/5 pb-4">
               <WarningCircle size={24} className="text-white" />
@@ -176,7 +185,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Lado Direito: A Cura (Gráfico Recharts com cores institucionais) */}
+          {/* Lado Direito: A Cura */}
           <div className="lg:col-span-7 bg-slate-900/80 backdrop-blur-xl border border-blue-500/20 p-6 md:p-8 rounded-[2rem] shadow-[0_0_30px_rgba(59,130,246,0.1)] relative">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 blur-[50px] rounded-full pointer-events-none" />
             
@@ -189,7 +198,6 @@ export function Footer() {
                   <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 10 }} tickFormatter={(val) => `${val}%`} />
                   <Tooltip content={<CustomTooltip />} cursor={{ fill: '#ffffff05' }} />
                   
-                  {/* ANTES (Cor Gelo/Branca) e DEPOIS (Azul Vibrante) */}
                   <Bar dataKey="Antes" name="Início" fill="#e2e8f0" radius={[6, 6, 6, 6]} />
                   <Bar dataKey="Depois" name="12 Meses" fill="#3b82f6" radius={[6, 6, 6, 6]}>
                     {impactData.map((entry, index) => (
@@ -223,38 +231,51 @@ export function Footer() {
       {/* =========================================
           SEÇÃO 2: VIDAS TRANSFORMADAS E NA MÍDIA
       ============================================= */}
-      <div className="lives-section relative py-20 border-y border-white/5 bg-blue-600">
-        <div className="absolute inset-0 z-0 overflow-hidden">
-            <Image src="/canoa5.jpg" alt="Fundo" fill className="object-cover opacity-20 mix-blend-multiply" />
+      <div className="lives-section relative py-24 border-y border-white/10 overflow-hidden">
+        
+        {/* 1. Imagem colorida no fundo */}
+        <div className="absolute inset-0 z-0">
+            <Image src="/canoa5.jpg" alt="Fundo" fill className="object-cover" />
         </div>
+        
+        {/* 2. Filtro (Blur azul bem leve e bordas escuras) */}
+        <div className="absolute inset-0 z-0 bg-blue-900/30 backdrop-blur-[4px]" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-slate-950 via-transparent to-slate-950" />
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           
-          {/* Contadores */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
-            <div className="text-center">
-              <Users size={32} className="text-blue-200 mx-auto mb-2" weight="fill" />
-              <div className="text-5xl font-black text-white mb-1"><span className="counter-number" data-target="15">0</span></div>
-              <p className="text-blue-200 text-xs font-bold uppercase tracking-widest">Crianças Regulares</p>
+          {/* Contadores Animados (Glassmorphism Absurdo) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-20">
+            
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl text-center shadow-[0_0_40px_rgba(0,0,0,0.3)] transition-transform duration-500 hover:scale-105 hover:bg-white/20">
+              <div className="text-6xl md:text-7xl font-black text-white mb-2 drop-shadow-lg tracking-tighter">
+                <span className="counter-number" data-target="15">0</span>
+              </div>
+              <p className="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] drop-shadow-md">Crianças Regulares</p>
             </div>
-            <div className="text-center border-y md:border-y-0 md:border-x border-white/20 py-6 md:py-0">
-              <Heartbeat size={32} className="text-blue-200 mx-auto mb-2" weight="fill" />
-              <div className="text-5xl font-black text-white mb-1"><span className="counter-number" data-target="150">0</span></div>
-              <p className="text-blue-200 text-xs font-bold uppercase tracking-widest">Jovens Ensinados</p>
+            
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl text-center shadow-[0_0_40px_rgba(0,0,0,0.3)] transition-transform duration-500 hover:scale-105 hover:bg-white/20">
+              <div className="text-6xl md:text-7xl font-black text-white mb-2 drop-shadow-lg tracking-tighter">
+                <span className="counter-number" data-target="150">0</span>
+              </div>
+              <p className="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] drop-shadow-md">Jovens Ensinados</p>
             </div>
-            <div className="text-center">
-              <Handshake className="w-8 h-8 text-blue-200 mx-auto mb-2" />
-              <div className="text-5xl font-black text-white mb-1">+<span className="counter-number" data-target="600">0</span></div>
-              <p className="text-blue-200 text-xs font-bold uppercase tracking-widest">Pessoas Impactadas</p>
+            
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl text-center shadow-[0_0_40px_rgba(0,0,0,0.3)] transition-transform duration-500 hover:scale-105 hover:bg-white/20">
+              <div className="text-6xl md:text-7xl font-black text-white mb-2 drop-shadow-lg tracking-tighter">
+                +<span className="counter-number" data-target="600">0</span>
+              </div>
+              <p className="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] drop-shadow-md">Pessoas Impactadas</p>
             </div>
+
           </div>
 
           {/* Grid Na Mídia */}
           <div className="media-section max-w-6xl mx-auto">
-            <h3 className="text-center text-white font-black uppercase tracking-widest text-sm mb-6 opacity-80">Nosso Impacto na Mídia</h3>
+            <h3 className="text-center text-white font-black uppercase tracking-widest text-sm mb-6 drop-shadow-lg">Nosso Impacto na Mídia</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {MEDIA_REPORTS.map((media, idx) => (
-                <a key={idx} href={media.url} target="_blank" rel="noopener noreferrer" className="media-card bg-slate-950/40 hover:bg-white border border-white/10 hover:border-transparent p-5 rounded-2xl flex flex-col items-center text-center transition-all duration-300 group shadow-xl">
+                <a key={idx} href={media.url} target="_blank" rel="noopener noreferrer" className="media-card bg-slate-900/60 backdrop-blur-md hover:bg-white border border-white/10 hover:border-transparent p-5 rounded-2xl flex flex-col items-center text-center transition-all duration-300 group shadow-xl">
                   <media.icon size={32} weight="fill" className={`${media.color} mb-3 group-hover:scale-110 transition-transform`} />
                   <span className="text-white group-hover:text-slate-950 font-bold text-xs leading-tight mb-2 transition-colors">{media.title}</span>
                   <span className="text-blue-300 group-hover:text-blue-600 font-black text-[9px] uppercase tracking-widest transition-colors mt-auto">Ano {media.year}</span>
@@ -286,7 +307,6 @@ export function Footer() {
         {/* GRID INFO DO FOOTER */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
           
-          {/* LOGO LIMPA SEM QUADRADO */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-4">
             <div className="relative w-36 h-36 flex items-center justify-center">
                 <Image src="/fdnlogo.png" alt="Logo Filhos da Nação" fill className="object-contain" />
