@@ -18,7 +18,13 @@ import {
   Smiley,
   EnvelopeSimple,
   PencilSimple,
-  Heart
+  Heart,
+  CalendarPlus,
+  UsersThree,
+  ShareNetwork,
+  Clock,
+  Waves,
+  HandHeart
 } from '@phosphor-icons/react'
 import { Handshake } from 'lucide-react'
 
@@ -74,6 +80,16 @@ const MEDIA_REPORTS = [
   { year: '2017', title: 'Rede solidária...', icon: Heart, color: 'text-red-500', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2017/outubro/rede-solidaria-oferece-sup-para-jovens-acolhidos' },
 ]
 
+// NOVOS DADOS DOS CONTADORES 
+const statsData = [
+  { target: 300, label: 'Beneficiários / Ano', icon: CalendarPlus },
+  { target: 750, label: 'Crianças e Adolescentes', icon: UsersThree },
+  { target: 4500, label: 'Pessoas Impactadas (Indireto)', icon: ShareNetwork },
+  { target: 900, label: 'Horas de Remada', icon: Clock },
+  { target: 5000, label: 'Km de Remada', icon: Waves },
+  { target: 250, label: 'Voluntários', icon: HandHeart },
+]
+
 // Tooltip do Gráfico Moderno
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -111,19 +127,28 @@ export function Footer() {
       )
     })
 
-    // Contadores Numéricos
+    // Contadores Numéricos (Agora formatando os pontos de milhar)
     const counters = gsap.utils.toArray('.counter-number')
-    counters.forEach((num: any) => {
-      const target = parseInt(num.getAttribute('data-target') || '0')
-      gsap.to(num, {
-        innerText: target, 
-        duration: 2.5, 
-        snap: { innerText: 1 },
-        scrollTrigger: { trigger: '.lives-section', start: "top 80%" }
-      })
+    counters.forEach((counter: any) => {
+      const target = parseFloat(counter.getAttribute('data-target') || '0')
+      gsap.fromTo(counter, 
+        { innerText: 0 },
+        {
+          innerText: target, 
+          duration: 2.5, 
+          ease: "power3.out",
+          snap: { innerText: 1 },
+          scrollTrigger: { trigger: '.lives-section', start: "top 80%" },
+          onUpdate: function() {
+              // Pega o valor arredondado e formata no padrão brasileiro (Ex: 4500 -> 4.500)
+              const val = Math.ceil(Number(this.targets()[0].innerText))
+              counter.innerHTML = val.toLocaleString('pt-BR')
+          }
+        }
+      )
     })
     
-    // Cards do Grid de Mídia (Corrigido para fromTo para todos aparecerem)
+    // Cards do Grid de Mídia
     gsap.fromTo('.media-card', 
       { y: 40, opacity: 0 },
       { 
@@ -233,41 +258,37 @@ export function Footer() {
       ============================================= */}
       <div className="lives-section relative py-24 border-y border-white/10 overflow-hidden">
         
-        {/* 1. Imagem colorida no fundo */}
+        {/* Imagem colorida no fundo com filtros modernos */}
         <div className="absolute inset-0 z-0">
-            <Image src="/canoa5.jpg" alt="Fundo" fill className="object-cover" />
+            <Image src="/canoa5.jpg" alt="Fundo" fill sizes="100vw" className="object-cover" />
         </div>
-        
-        {/* 2. Filtro (Blur azul bem leve e bordas escuras) */}
-        <div className="absolute inset-0 z-0 bg-blue-900/30 backdrop-blur-[4px]" />
+        <div className="absolute inset-0 z-0 bg-blue-950/40 backdrop-blur-[6px]" />
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-slate-950 via-transparent to-slate-950" />
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           
-          {/* Contadores Animados (Glassmorphism Absurdo) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-20">
-            
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl text-center shadow-[0_0_40px_rgba(0,0,0,0.3)] transition-transform duration-500 hover:scale-105 hover:bg-white/20">
-              <div className="text-6xl md:text-7xl font-black text-white mb-2 drop-shadow-lg tracking-tighter">
-                <span className="counter-number" data-target="15">0</span>
-              </div>
-              <p className="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] drop-shadow-md">Crianças Regulares</p>
-            </div>
-            
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl text-center shadow-[0_0_40px_rgba(0,0,0,0.3)] transition-transform duration-500 hover:scale-105 hover:bg-white/20">
-              <div className="text-6xl md:text-7xl font-black text-white mb-2 drop-shadow-lg tracking-tighter">
-                <span className="counter-number" data-target="150">0</span>
-              </div>
-              <p className="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] drop-shadow-md">Jovens Ensinados</p>
-            </div>
-            
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl text-center shadow-[0_0_40px_rgba(0,0,0,0.3)] transition-transform duration-500 hover:scale-105 hover:bg-white/20">
-              <div className="text-6xl md:text-7xl font-black text-white mb-2 drop-shadow-lg tracking-tighter">
-                +<span className="counter-number" data-target="600">0</span>
-              </div>
-              <p className="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] drop-shadow-md">Pessoas Impactadas</p>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-lg">
+              Vidas <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">Transformadas</span>
+            </h2>
+          </div>
 
+          {/* GRID 3x2 DE CONTADORES ANIMADOS */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
+            {statsData.map((stat, idx) => (
+                <div 
+                  key={idx} 
+                  className="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl text-center shadow-[0_0_40px_rgba(0,0,0,0.3)] transition-transform duration-500 hover:scale-105 hover:bg-white/20 flex flex-col items-center justify-center"
+                >
+                  <stat.icon size={40} weight="fill" className="text-blue-300 mb-4 drop-shadow-md" />
+                  <div className="text-5xl md:text-6xl font-black text-white mb-2 drop-shadow-lg tracking-tighter">
+                    +<span className="counter-number" data-target={stat.target}>0</span>
+                  </div>
+                  <p className="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] drop-shadow-md leading-tight">
+                    {stat.label}
+                  </p>
+                </div>
+            ))}
           </div>
 
           {/* Grid Na Mídia */}
@@ -288,9 +309,41 @@ export function Footer() {
       </div>
 
       {/* =========================================
-          SEÇÃO 3: FOOTER FINAL (LOGO LIMPA)
+          SEÇÃO 3: NOSSA LOCALIZAÇÃO (MAPA)
       ============================================= */}
-      <div className="container mx-auto px-6 py-16 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 py-20">
+        <div className="flex flex-col items-center mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black tracking-widest uppercase mb-4">
+                <MapPin size={16} weight="fill" />
+                Nossa Base
+            </div>
+            <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter text-center">
+                Onde a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Magia</span> Acontece
+            </h3>
+        </div>
+
+        {/* Iframe do Mapa em Glassmorphism Container */}
+        <div className="w-full max-w-6xl mx-auto h-[350px] md:h-[450px] rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.6)] relative group">
+            {/* Bordas internas e sobreposição para evitar que o Iframe cubra o border-radius nativo do Tailwind */}
+            <div className="absolute inset-0 z-10 pointer-events-none rounded-[2rem] md:rounded-[3rem] shadow-[inset_0_0_30px_rgba(0,0,0,0.8)] border border-white/5" />
+            
+            <iframe
+                title="ASCADE Brasília - OndaSup"
+                src="https://maps.google.com/maps?width=100%25&height=600&hl=pt-BR&q=Clube%20Ascade,%20St.%20de%20Clubes%20Esportivos%20Sul%20Trecho%202%20Conjunto%2010%20Lote%2018%20-%20Asa%20Sul,%20Bras%C3%ADlia%20-%20DF,%2070200-002+(OndaSup%20-%20Clube%20Ascade)&t=&z=16&ie=UTF8&iwloc=B&output=embed"
+                width="100%"
+                height="100%"
+                loading="lazy"
+                style={{ border: 0 }}
+                allowFullScreen
+                className="w-full h-full contrast-[1.1] grayscale-[0.3] transition-all duration-700 group-hover:grayscale-0 group-hover:contrast-100"
+            />
+        </div>
+      </div>
+
+      {/* =========================================
+          SEÇÃO 4: FOOTER FINAL (LOGO LIMPA)
+      ============================================= */}
+      <div className="container mx-auto px-6 py-16 relative z-10 border-t border-white/5">
         
         {/* PARCEIROS */}
         <div className="border-b border-white/5 pb-16 mb-16">
@@ -298,7 +351,7 @@ export function Footer() {
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             {PARTNERS.map((item) => (
               <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer" className="bg-white p-4 rounded-2xl flex items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] w-40 h-24 md:w-56 md:h-28">
-                <div className="relative w-full h-full"><Image src={item.logo} alt={item.name} fill className="object-contain" /></div>
+                <div className="relative w-full h-full"><Image src={item.logo} alt={item.name} fill sizes="(max-width: 768px) 160px, 224px" className="object-contain" /></div>
               </a>
             ))}
           </div>
@@ -309,7 +362,7 @@ export function Footer() {
           
           <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-4">
             <div className="relative w-36 h-36 flex items-center justify-center">
-                <Image src="/fdnlogo.png" alt="Logo Filhos da Nação" fill className="object-contain" />
+                <Image src="/fdnlogo.png" alt="Logo Filhos da Nação" fill sizes="144px" className="object-contain" />
             </div>
             <p className="text-slate-400 text-sm font-light max-w-xs leading-relaxed">Transformando a dor em acolhimento e o medo em autoconfiança no Lago Paranoá.</p>
           </div>

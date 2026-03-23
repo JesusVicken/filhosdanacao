@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Image from 'next/image'
 import { WhatsappLogo, HandHeart, CheckCircle, CaretRight } from '@phosphor-icons/react'
 
 import gsap from 'gsap'
@@ -23,7 +22,6 @@ export default function CheckVaa() {
     }, [])
 
     useGSAP(() => {
-        // Correção: Usando gsap.fromTo para evitar que os elementos sumam no React Strict Mode
         const headerElements = gsap.utils.toArray('.cta-header > *')
         const cards = gsap.utils.toArray('.donation-card')
         const pixArea = gsap.utils.toArray('.pix-area')
@@ -79,15 +77,18 @@ export default function CheckVaa() {
     return (
         <section ref={sectionRef} className="relative bg-slate-950 py-24 md:py-32 px-4 md:px-6 border-t border-white/5 overflow-hidden font-sans">
             
-            {/* Imagem de Fundo (Parallax Sutil) */}
+            {/* --- VÍDEO DE FUNDO --- */}
             <div className="absolute inset-0 z-0">
-                <Image 
-                    src="/filhosdanacao3.webp" 
-                    alt="Crianças Remando" 
-                    fill 
-                    className="object-cover opacity-20"
+                <video
+                    src="/bg2.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover opacity-20"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/90 to-slate-950" />
+                {/* Gradiente escuro para garantir a leitura perfeita do texto por cima do vídeo */}
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/80 to-slate-950" />
             </div>
 
             <div className="container mx-auto max-w-6xl relative z-10">
@@ -103,8 +104,11 @@ export default function CheckVaa() {
                         Multiplique o <span className="text-blue-500 italic">Impacto</span>
                     </h2>
                     
-                    <p className="text-slate-300 text-lg md:text-xl font-light max-w-3xl leading-relaxed">
-                        Nossa meta é levar o projeto para mais de <strong className="text-white">300 crianças e adolescentes</strong> por ano. Pessoas físicas ou empresas que colaboram financeiramente ajudam a resgatar sorrisos e sonhos.
+                    <p className="text-slate-300 text-lg md:text-xl font-light max-w-3xl leading-relaxed mb-4">
+                        Nossa meta é levar o projeto para mais de <strong className="text-white">500 crianças e adolescentes</strong> por ano. Pessoas físicas ou empresas que colaboram financeiramente ajudam a resgatar sorrisos e sonhos.
+                    </p>
+                    <p className="text-slate-400 font-light">
+                        Precisamos de ajuda / mobilização / participação para exponenciar o <strong className="text-white font-bold">impacto</strong>.
                     </p>
                 </div>
 
@@ -112,7 +116,7 @@ export default function CheckVaa() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-5xl mx-auto">
 
                     {/* CARD 01 - ASSINATURA/APADRINHAMENTO */}
-                    <div className="donation-card bg-slate-900 border border-white/10 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-between group hover:border-blue-500/50 transition-all duration-500 shadow-2xl min-h-[500px]">
+                    <div className="donation-card bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-between group hover:border-blue-500/50 transition-all duration-500 shadow-2xl min-h-[500px]">
                         
                         {/* Brilho superior */}
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-cyan-400 to-blue-600 opacity-50 group-hover:opacity-100 transition-opacity" />
@@ -163,7 +167,7 @@ export default function CheckVaa() {
                     </div>
 
                     {/* CARD 02 - PATROCÍNIO/EMPRESAS */}
-                    <div className="donation-card bg-slate-900 border border-white/10 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-between group hover:border-white/30 transition-all duration-500 shadow-2xl min-h-[500px]">
+                    <div className="donation-card bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-between group hover:border-white/30 transition-all duration-500 shadow-2xl min-h-[500px]">
                         
                         <div className="relative z-10 flex-1">
                             <div className="flex justify-between items-start mb-8">
@@ -214,7 +218,7 @@ export default function CheckVaa() {
 
                 {/* --- DADOS PIX (TRANSPARÊNCIA) --- */}
                 <div className="pix-area mt-20 flex flex-col items-center gap-4">
-                    <div className="bg-slate-900 border border-white/10 p-6 md:p-8 rounded-3xl md:rounded-full flex flex-col md:flex-row items-center gap-6 md:gap-12 max-w-4xl w-full justify-center text-center md:text-left shadow-2xl">
+                    <div className="bg-slate-900/80 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl md:rounded-full flex flex-col md:flex-row items-center gap-6 md:gap-12 max-w-4xl w-full justify-center text-center md:text-left shadow-2xl">
                         <div>
                             <p className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-black mb-1">Doação Avulsa (PIX)</p>
                             <p className="text-blue-400 font-black text-lg md:text-xl">07.533.843/0001-00</p>

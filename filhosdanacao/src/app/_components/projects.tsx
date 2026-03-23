@@ -51,6 +51,7 @@ export default function Projects() {
     const containerRef = useRef<HTMLDivElement | null>(null)
 
     const activeCard = gallery[activeIndex]
+    const SLIDE_DURATION = 6000 // 6 segundos por foto (Tempo ideal para leitura e apreciação)
 
     // PRELOAD DAS IMAGENS
     useEffect(() => {
@@ -59,6 +60,17 @@ export default function Projects() {
             img.src = item.src
         })
     }, [])
+
+    // 🔥 NOVA FEATURE: AUTO PLAY DO CARROSSEL 🔥
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setActiveIndex((prev) => (prev + 1) % gallery.length)
+        }, SLIDE_DURATION)
+
+        // Se o usuário clicar (activeIndex mudar), o cronômetro reseta, 
+        // garantindo que a foto não pule logo após a interação manual.
+        return () => clearInterval(timer)
+    }, [activeIndex])
 
     // AUTO SCROLL DO CARROSSEL LATERAL
     useEffect(() => {
@@ -159,7 +171,7 @@ export default function Projects() {
                                     src={item.src}
                                     alt="Miniatura"
                                     fill
-                                    sizes="(max-width: 768px) 150px, 200px" // Evita o aviso de performance do Next.js
+                                    sizes="(max-width: 768px) 150px, 200px" 
                                     className="object-cover"
                                 />
 
@@ -169,9 +181,17 @@ export default function Projects() {
                                         className="absolute inset-0 rounded-[1.5rem] pointer-events-none"
                                         animate={{ opacity: [0.2, 0.5, 0.2] }}
                                         transition={{ duration: 2, repeat: Infinity }}
-                                        style={{
-                                            boxShadow: 'inset 0 0 20px rgba(59,130,246,0.5)'
-                                        }}
+                                        style={{ boxShadow: 'inset 0 0 20px rgba(59,130,246,0.5)' }}
+                                    />
+                                )}
+
+                                {/* 🔥 BARRA DE PROGRESSO DO AUTO-PLAY 🔥 */}
+                                {activeIndex === index && (
+                                    <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{ width: "100%" }}
+                                        transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
+                                        className="absolute bottom-0 left-0 h-1.5 bg-blue-500 z-20"
                                     />
                                 )}
                             </motion.div>

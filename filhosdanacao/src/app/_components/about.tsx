@@ -90,7 +90,7 @@ export function About() {
                                 O projeto <strong className="text-white">Filhos da Nação</strong> atende crianças e adolescentes que vivem em instituições de acolhimento com um futuro indefinido. 
                             </p>
                             <p>
-                                A dor do abandono e a violação de direitos deixam marcas profundas: ansiedade, depressão e a perda da capacidade de sonhar. Nosso remo é a ferramenta de cura.
+                                A dor do abandono e a violação de direitos deixam marcas profundas: ansiedade, depressão e a perda da capacidade de sonhar com o futuro. Nosso remo é a ferramenta de cura.
                             </p>
                         </div>
 
