@@ -141,7 +141,7 @@ export default function Projects() {
                         >
                             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[10px] font-black uppercase tracking-widest mb-8 backdrop-blur-md shadow-lg shadow-blue-500/10">
                                 <Heart size={14} className="fill-blue-400 text-blue-400" />
-                                Impacto Visual
+                                Impacto Social
                             </div>
 
                             <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tighter drop-shadow-2xl">
