@@ -75,7 +75,7 @@ export function Tours() {
           muted
           playsInline
           className="w-full h-full object-cover opacity-70 transition-opacity duration-1000"
-          src="/bg.mp4" 
+          src="/bg3.mp4" 
         />
         {/* Overlays Pro: Gradientes Sutis apenas para blendar com o topo/rodapé */}
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-slate-950 via-slate-950/50 to-transparent z-10 pointer-events-none" />

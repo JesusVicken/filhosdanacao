@@ -318,7 +318,7 @@ export function Footer() {
                 Nossa Base
             </div>
             <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter text-center">
-                Onde a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Magia</span> Acontece
+                Onde o <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Projeto</span> Acontece
             </h3>
         </div>
 

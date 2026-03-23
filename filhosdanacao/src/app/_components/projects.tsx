@@ -72,16 +72,21 @@ export default function Projects() {
         return () => clearInterval(timer)
     }, [activeIndex])
 
-    // AUTO SCROLL DO CARROSSEL LATERAL
+    // 🔥 CORREÇÃO: SCROLL LOCAL APENAS NO CARROSSEL 🔥
     useEffect(() => {
         const el = containerRef.current
         if (!el) return
 
-        const activeChild = el.children[activeIndex]
+        const activeChild = el.children[activeIndex] as HTMLElement
         if (activeChild) {
-            activeChild.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
+            // Calcula o centro do elemento em relação ao container para não afetar o scroll da janela global
+            const offsetTop = activeChild.offsetTop
+            const halfContainer = el.clientHeight / 2
+            const halfChild = activeChild.clientHeight / 2
+            
+            el.scrollTo({
+                top: offsetTop - halfContainer + halfChild,
+                behavior: 'smooth'
             })
         }
     }, [activeIndex])
@@ -109,7 +114,7 @@ export default function Projects() {
                             alt="Cena do Projeto"
                             fill
                             priority
-                            sizes="100vw" // Evita o aviso de performance do Next.js
+                            sizes="100vw" 
                             className="object-cover"
                         />
                     </motion.div>
@@ -154,14 +159,14 @@ export default function Projects() {
                 <div className="ml-auto flex items-center pr-6 md:pr-12 z-30">
                     <div
                         ref={containerRef}
-                        className="flex flex-col gap-6 overflow-y-auto max-h-[80vh] snap-y snap-mandatory px-4 py-10
-                        [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                        className="flex flex-col gap-6 overflow-y-auto max-h-[80vh] snap-y snap-mandatory px-4 py-10 relative
+                        [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
                     >
                         {gallery.map((item, index) => (
                             <motion.div
                                 key={item.id}
                                 onClick={() => setActiveIndex(index)}
-                                className={`relative w-28 h-40 md:w-36 md:h-52 rounded-[1.5rem] overflow-hidden cursor-pointer snap-center transition-all duration-500 border border-white/10
+                                className={`relative w-28 h-40 md:w-36 md:h-52 rounded-[1.5rem] overflow-hidden cursor-pointer snap-center transition-all duration-500 border border-white/10 shrink-0
                                 ${activeIndex === index
                                         ? 'scale-110 ring-2 ring-blue-500 shadow-[0_0_40px_rgba(59,130,246,0.6)] z-10 border-transparent'
                                         : 'scale-90 opacity-40 hover:opacity-100 hover:scale-95'}
