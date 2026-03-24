@@ -11,6 +11,7 @@ import FooterDev from "./_components/footer-dev"
 import WhatsappWrapper from "./_components/whatsapp-wrapper"
 // import { ImageTransition } from "./_components/ImageTransition"
 import { CampeonatoResults} from "./_components/CampeonatoResults"
+import { FilhasDaNacaoSection } from "./_components/FilhasDaNacaoSection"
 
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
         <Tours />
         <Services />
         <CampeonatoResults />
+        <FilhasDaNacaoSection />
         <CheckVaa />
         <Footer />
         <FooterDev />
