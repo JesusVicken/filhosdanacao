@@ -10,6 +10,7 @@ import { ParallaxWrapper } from "./_components/ParallaxWrapper"
 import FooterDev from "./_components/footer-dev"
 import WhatsappWrapper from "./_components/whatsapp-wrapper"
 // import { ImageTransition } from "./_components/ImageTransition"
+import { CampeonatoResults} from "./_components/CampeonatoResults"
 
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
       <WhatsappWrapper>
         <Tours />
         <Services />
+        <CampeonatoResults />
         <CheckVaa />
         <Footer />
         <FooterDev />

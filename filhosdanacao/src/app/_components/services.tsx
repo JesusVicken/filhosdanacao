@@ -15,7 +15,7 @@ if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger, useGSAP)
 }
 
-// Dados dos Pilares (Bento Grid) - ERRO CORRIGIDO AQUI
+// Dados dos Pilares (Bento Grid)
 const pilares = [
     {
         colSpan: "md:col-span-2",
@@ -39,7 +39,7 @@ const pilares = [
         subtitle: "Consciência",
         desc: "Ações práticas de limpeza do Lago Paranoá, ensinando o cuidado com o meio ambiente e o senso de pertencimento.",
         image: "/limparLago.jpeg",
-        icon: Leaf // <-- CORRIGIDO AQUI (faltavam os dois pontos)
+        icon: Leaf
     },
     {
         colSpan: "md:col-span-1",
@@ -71,20 +71,20 @@ export function Services() {
 
         const cards = gsap.utils.toArray('.bento-card')
 
+        // 🔥 CORREÇÃO DO GSAP PARA EVITAR TREMOR NAS IMAGENS 🔥
         gsap.fromTo(
             cards,
             {
                 opacity: 0,
-                y: 80,
-                scale: 0.95,
+                y: 60, // Diminuí a distância do Y para um movimento mais fluido
             },
             {
                 opacity: 1,
                 y: 0,
-                scale: 1,
                 duration: 1.2,
-                ease: 'power4.out',
+                ease: 'power3.out', // Troquei para power3 que é mais leve para a GPU
                 stagger: 0.15,
+                force3D: true, // Obriga o navegador a usar a Placa de Vídeo (acaba com o tremor)
                 scrollTrigger: {
                     trigger: gridRef.current,
                     start: 'top 85%',
@@ -94,7 +94,7 @@ export function Services() {
     }, { scope: gridRef })
 
     return (
-        <section className="relative bg-slate-950 py-24 md:py-32 border-t border-white/5 overflow-hidden">
+        <section className="relative bg-slate-950 py-24 md:py-32 border-t border-white/5 overflow-hidden font-sans">
             
             {/* Efeitos de Luz no Fundo */}
             <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-blue-600/10 blur-[150px] rounded-full pointer-events-none" />
@@ -105,13 +105,14 @@ export function Services() {
                 {/* --- INTRODUÇÃO --- */}
                 <div className="max-w-4xl mx-auto text-center mb-16 md:mb-24 flex flex-col items-center">
                     
-                    {/* Logo do Projeto (Fundo sólido em vez de blur) */}
+                    {/* Logo do Projeto */}
                     <div className="relative w-24 h-24 mb-10" data-aos="fade-down">
                         <div className="absolute inset-0 rounded-full bg-slate-900 border border-white/10 shadow-xl scale-[1.3]" />
                         <Image 
                             src="/fdnlogo.png" 
                             alt="Logo Filhos da Nação" 
                             fill 
+                            sizes="96px" // Boa prática
                             className="relative z-10 object-contain p-2" 
                         />
                     </div>
@@ -124,28 +125,29 @@ export function Services() {
                     </p>
                 </div>
 
-                {/* --- BENTO GRID ANIMADO COM GSAP --- */}
+                {/* --- BENTO GRID ANIMADO --- */}
                 <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                     {pilares.map((pilar, index) => (
                         <div
                             key={index}
-                            className={`bento-card group relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-white/10 bg-slate-900 min-h-[350px] md:min-h-[400px] flex flex-col justify-end p-8 md:p-10 transition-all duration-500 hover:border-blue-500/50 shadow-2xl ${pilar.colSpan}`}
+                            // 🔥 CORREÇÃO CSS: transform-gpu e will-change resolvem os conflitos de renderização 🔥
+                            className={`bento-card group relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-white/10 bg-slate-900 min-h-[350px] md:min-h-[400px] flex flex-col justify-end p-8 md:p-10 transition-all duration-500 hover:border-blue-500/50 shadow-2xl transform-gpu will-change-transform ${pilar.colSpan}`}
                         >
-                            {/* Imagem de Fundo do Card (Totalmente Colorida, sem blur, sem cinza) */}
-                            <div className="absolute inset-0 z-0 overflow-hidden">
+                            {/* Imagem de Fundo do Card */}
+                            <div className="absolute inset-0 z-0 overflow-hidden transform-gpu">
                                 <Image
                                     src={pilar.image}
                                     alt={pilar.title}
                                     fill
-                                    className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-100" 
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-100 will-change-transform" 
                                 />
-                                {/* Gradiente forte embaixo para garantir a leitura do texto */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-black/10" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-black/10 pointer-events-none" />
                             </div>
 
                             {/* Conteúdo do Card */}
                             <div className="relative z-10 flex flex-col h-full justify-between">
-                                {/* Topo: Ícone e Subtítulo (Sólidos, sem blur) */}
+                                {/* Topo: Ícone e Subtítulo */}
                                 <div className="flex justify-between items-start mb-10 transform translate-y-4 opacity-90 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                                     <span className="bg-blue-600 border border-blue-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg">
                                         {pilar.subtitle}
