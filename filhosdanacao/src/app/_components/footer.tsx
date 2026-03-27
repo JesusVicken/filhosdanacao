@@ -53,6 +53,8 @@ if (typeof window !== "undefined") {
 // DADOS ATUALIZADOS
 // ==========================================
 const PARTNERS = [
+  // 🔥 ADICIONADO: Logo da OndaSup como primeira parceria/realização 🔥
+  { name: 'OndaSup', logo: '/ondasuplogo.jpg', url: '#' },
   { name: 'Associação Brasil Melhor', logo: '/brasilLogo.png', url: 'https://brasilmelhor.org.br/' }, 
   { name: 'Ascade', logo: '/logo-ascade.png', url: 'https://ascade.com.br/' },
 ]
@@ -211,12 +213,12 @@ export function Footer() {
           </div>
 
           {/* Lado Direito: A Cura */}
-          <div className="lg:col-span-7 bg-slate-900/80 backdrop-blur-xl border border-blue-500/20 p-6 md:p-8 rounded-[2rem] shadow-[0_0_30px_rgba(59,130,246,0.1)] relative">
+          <div className="lg:col-span-7 bg-slate-900/80 backdrop-blur-xl border border-blue-500/20 p-6 md:p-8 rounded-[2rem] shadow-[0_0_30px_rgba(59,130,246,0.1)] relative flex flex-col">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 blur-[50px] rounded-full pointer-events-none" />
             
             <h3 className="font-black uppercase tracking-widest text-sm text-blue-400 mb-2 text-center">Expectativa de Futuro</h3>
-            <div className="h-[250px] w-full mt-4">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-[250px] min-h-[250px] w-full mt-4 flex-1">
+              <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={250}>
                 <BarChart data={impactData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }} barSize={35}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff05" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 600 }} dy={10} />
