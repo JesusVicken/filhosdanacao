@@ -24,7 +24,13 @@ import {
   ShareNetwork,
   Clock,
   Waves,
-  HandHeart
+  HandHeart,
+  // Novos ícones para as reportagens adicionadas:
+  Newspaper,
+  Trophy,
+  GlobeHemisphereWest,
+  Leaf,
+  GraduationCap
 } from '@phosphor-icons/react'
 import { Handshake } from 'lucide-react'
 
@@ -49,9 +55,10 @@ if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger, useGSAP)
 }
 
-
+// ==========================================
+// DADOS ATUALIZADOS
+// ==========================================
 const PARTNERS = [
-  // 🔥 ADICIONADO: Logo da OndaSup como primeira parceria/realização 🔥
   { name: 'OndaSup', logo: '/ondaSupLogo.jpg', url: '#' },
   { name: 'Associação Brasil Melhor', logo: '/brasilLogo.png', url: 'https://brasilmelhor.org.br/' }, 
   { name: 'Ascade', logo: '/logo-ascade.png', url: 'https://ascade.com.br/' },
@@ -72,12 +79,25 @@ const impactData = [
   { name: 'Excelente', Antes: 0, Depois: 28.6 },
 ]
 
+// 🔥 LISTA DE REPORTAGENS COM TODOS OS LINKS ADICIONADOS 🔥
 const MEDIA_REPORTS = [
-  { year: '2024', title: 'Reportagem Record', icon: PlayCircle, color: 'text-red-500', url: 'https://www.youtube.com/watch?v=bN5JhF3j0pI&t=11s' },
-  { year: '2023', title: 'Projeto oferece Canoa...', icon: Smiley, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2023/novembro/projeto-oferece-canoa-havaiana-para-criancas-acolhidas' },
-  { year: '2022', title: 'Meninos praticam SUP...', icon: EnvelopeSimple, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2022/junho/meninos-acolhidos-praticam-canoa-havaiana' },
-  { year: '2019', title: 'Terapia e Esporte...', icon: PencilSimple, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2019/setembro/combinacao-de-terapia-e-pratica-esportiva-apresenta-resultados-positivos-com-criancas-acolhidas' },
-  { year: '2017', title: 'Rede solidária...', icon: Heart, color: 'text-red-500', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2017/outubro/rede-solidaria-oferece-sup-para-jovens-acolhidos' },
+  { year: '2026', title: 'Rumo a Harvard', icon: GraduationCap, color: 'text-purple-400', url: 'https://www.metropoles.com/esportes/time-do-df-fica-em-2o-no-brasileiro-de-vaa-e-projeto-vai-para-harvard' },
+  { year: '2026', title: 'Projeção Internacional', icon: Newspaper, color: 'text-cyan-400', url: 'https://www.correiobraziliense.com.br/cidades-df/2026/02/amp/7362003-projeto-do-df-ganha-projecao-internacional.html' },
+  { year: '2026', title: 'Vaga no Mundial (Singapura)', icon: Trophy, color: 'text-yellow-500', url: 'https://visitebrasilia.com.br/experiencias/projeto-social-filhos-da-nacao-classifica-tres-equipes-para-o-mundial-de-canoa-havaiana-em-singapura' },
+  { year: '2026', title: 'Destaque em Harvard', icon: GlobeHemisphereWest, color: 'text-orange-400', url: 'https://alohaspiritmidia.com.br/eventos/projeto-social-de-brasilia-e-destaque-em-harvard/' },
+  { year: '2026', title: 'Representando o Centro-Oeste', icon: GraduationCap, color: 'text-purple-300', url: 'https://stgnews.com.br/projeto-filhos-da-nacao-representa-o-centro-oeste-em-harvard/' },
+  { year: '2026', title: 'Filhas da Nação', icon: Newspaper, color: 'text-pink-400', url: 'https://www.metropoles.com/distrito-federal/filhas-da-nacao-projeto-social-expande-esportes-a-remo-para-meninas' },
+  { year: '2025', title: 'Saúde Mental e Remo', icon: Newspaper, color: 'text-emerald-400', url: 'https://jornaldebrasilia.com.br/brasilia/projeto-transforma-vida-de-jovens-com-a-pratica-do-remo-aliada-a-saude-mental/' },
+  { year: '2025', title: 'Canoagem Muda Vidas', icon: Newspaper, color: 'text-blue-300', url: 'https://www.metropoles.com/distrito-federal/projeto-social-filhos-da-nacao-usa-canoagem-para-mudar-historia-de-criancas-vulneraveis' },
+  { year: '2024', title: 'Reportagem Record TV', icon: PlayCircle, color: 'text-red-500', url: 'https://www.youtube.com/watch?v=GOrZ3N3SrTM' },
+  { year: '2024', title: 'SBT: Histórias no Lago', icon: PlayCircle, color: 'text-yellow-400', url: 'https://www.youtube.com/watch?v=r9LVuooP8AU' },
+  { year: '2024', title: 'Inclusão (TV Brasil)', icon: PlayCircle, color: 'text-blue-500', url: 'https://www.youtube.com/watch?v=InRaPavjwDo&t=16s' },
+  { year: '2024', title: 'Ação Limpeza do Paranoá', icon: Leaf, color: 'text-green-400', url: 'https://www.regenerabrasilia.com.br/post/projeto-filhos-da-nação-recolhe-lixo-do-lago-paranoá-faz-plantio-de-mudas-e-promove-debate-sobre-su' },
+  { year: '2024', title: 'Viral do Projeto', icon: InstagramLogo, color: 'text-fuchsia-500', url: 'https://www.instagram.com/reel/DUlidhrCQmg/?igsh=cjFzbmdnM2drd25s' },
+  { year: '2023', title: 'Crianças acolhidas', icon: Smiley, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2023/novembro/projeto-oferece-canoa-havaiana-para-criancas-acolhidas' },
+  { year: '2022', title: 'Meninos praticam SUP', icon: EnvelopeSimple, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2022/junho/meninos-acolhidos-praticam-canoa-havaiana' },
+  { year: '2019', title: 'Terapia e Esporte', icon: PencilSimple, color: 'text-blue-400', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2019/setembro/combinacao-de-terapia-e-pratica-esportiva-apresenta-resultados-positivos-com-criancas-acolhidas' },
+  { year: '2017', title: 'Rede solidária', icon: Heart, color: 'text-red-500', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2017/outubro/rede-solidaria-oferece-sup-para-jovens-acolhidos' },
 ]
 
 // NOVOS DADOS DOS CONTADORES 
@@ -291,7 +311,7 @@ export function Footer() {
             ))}
           </div>
 
-          {/* Grid Na Mídia */}
+          {/* Grid Na Mídia - Intacto, apenas com os novos links */}
           <div className="media-section max-w-6xl mx-auto">
             <h3 className="text-center text-white font-black uppercase tracking-widest text-sm mb-6 drop-shadow-lg">Nosso Impacto na Mídia</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -299,7 +319,7 @@ export function Footer() {
                 <a key={idx} href={media.url} target="_blank" rel="noopener noreferrer" className="media-card bg-slate-900/60 backdrop-blur-md hover:bg-white border border-white/10 hover:border-transparent p-5 rounded-2xl flex flex-col items-center text-center transition-all duration-300 group shadow-xl">
                   <media.icon size={32} weight="fill" className={`${media.color} mb-3 group-hover:scale-110 transition-transform`} />
                   <span className="text-white group-hover:text-slate-950 font-bold text-xs leading-tight mb-2 transition-colors">{media.title}</span>
-                  <span className="text-blue-300 group-hover:text-blue-600 font-black text-[9px] uppercase tracking-widest transition-colors mt-auto">Ano {media.year}</span>
+                  <span className="text-blue-300 group-hover:text-blue-600 font-black text-[9px] uppercase tracking-widest transition-colors mt-auto pt-3">Ano {media.year}</span>
                 </a>
               ))}
             </div>
