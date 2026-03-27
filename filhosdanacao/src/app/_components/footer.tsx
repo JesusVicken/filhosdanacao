@@ -25,7 +25,6 @@ import {
   Clock,
   Waves,
   HandHeart,
-  // Novos ícones para as reportagens adicionadas:
   Newspaper,
   Trophy,
   GlobeHemisphereWest,
@@ -79,7 +78,7 @@ const impactData = [
   { name: 'Excelente', Antes: 0, Depois: 28.6 },
 ]
 
-// 🔥 LISTA DE REPORTAGENS COM TODOS OS LINKS ADICIONADOS 🔥
+// 🔥 LISTA DE REPORTAGENS 🔥
 const MEDIA_REPORTS = [
   { year: '2026', title: 'Rumo a Harvard', icon: GraduationCap, color: 'text-purple-400', url: 'https://www.metropoles.com/esportes/time-do-df-fica-em-2o-no-brasileiro-de-vaa-e-projeto-vai-para-harvard' },
   { year: '2026', title: 'Projeção Internacional', icon: Newspaper, color: 'text-cyan-400', url: 'https://www.correiobraziliense.com.br/cidades-df/2026/02/amp/7362003-projeto-do-df-ganha-projecao-internacional.html' },
@@ -100,7 +99,6 @@ const MEDIA_REPORTS = [
   { year: '2017', title: 'Rede solidária', icon: Heart, color: 'text-red-500', url: 'https://www.tjdft.jus.br/informacoes/infancia-e-juventude/noticias-e-destaques/2017/outubro/rede-solidaria-oferece-sup-para-jovens-acolhidos' },
 ]
 
-// NOVOS DADOS DOS CONTADORES 
 const statsData = [
   { target: 300, label: 'Beneficiários / Ano', icon: CalendarPlus },
   { target: 750, label: 'Crianças e Adolescentes', icon: UsersThree },
@@ -110,7 +108,6 @@ const statsData = [
   { target: 250, label: 'Voluntários', icon: HandHeart },
 ]
 
-// Tooltip do Gráfico Moderno
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -278,9 +275,16 @@ export function Footer() {
       ============================================= */}
       <div className="lives-section relative py-24 border-y border-white/10 overflow-hidden">
         
-        {/* Imagem colorida no fundo com filtros modernos */}
+        {/* VÍDEO NO FUNDO COM FILTROS MODERNOS 🔥 */}
         <div className="absolute inset-0 z-0">
-            <Image src="/canoa5.jpg" alt="Fundo" fill sizes="100vw" className="object-cover" />
+            <video
+                src="/bg1.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+            />
         </div>
         <div className="absolute inset-0 z-0 bg-blue-950/40 backdrop-blur-[6px]" />
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-slate-950 via-transparent to-slate-950" />
@@ -311,7 +315,7 @@ export function Footer() {
             ))}
           </div>
 
-          {/* Grid Na Mídia - Intacto, apenas com os novos links */}
+          {/* Grid Na Mídia */}
           <div className="media-section max-w-6xl mx-auto">
             <h3 className="text-center text-white font-black uppercase tracking-widest text-sm mb-6 drop-shadow-lg">Nosso Impacto na Mídia</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
