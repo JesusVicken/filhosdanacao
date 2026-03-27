@@ -49,12 +49,10 @@ if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger, useGSAP)
 }
 
-// ==========================================
-// DADOS ATUALIZADOS
-// ==========================================
+
 const PARTNERS = [
   // 🔥 ADICIONADO: Logo da OndaSup como primeira parceria/realização 🔥
-  { name: 'OndaSup', logo: '/ondasuplogo.jpg', url: '#' },
+  { name: 'OndaSup', logo: '/ondaSupLogo.jpg', url: '#' },
   { name: 'Associação Brasil Melhor', logo: '/brasilLogo.png', url: 'https://brasilmelhor.org.br/' }, 
   { name: 'Ascade', logo: '/logo-ascade.png', url: 'https://ascade.com.br/' },
 ]
